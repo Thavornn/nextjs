@@ -1,3 +1,4 @@
+export const dynamic = "force-dynamic"; 
 export default function ErrorPage() {
   if (typeof window === "undefined") {
     if (process.env.NODE_ENV === "production") {
