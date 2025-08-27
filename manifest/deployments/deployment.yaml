@@ -1,0 +1,25 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: nextjs-deployment
+  labels:
+    app: nextjs
+    tier: frontend
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: nextjs
+      tier: frontend
+  template:
+    metadata:
+      name: nextjs-pod
+      labels:
+        app: nextjs
+        tier: frontend
+    spec:
+      containers:
+        - name: nextjs-container
+          image: lynakiddy/nextjs:latest
+          ports:
+            - containerPort: 3000

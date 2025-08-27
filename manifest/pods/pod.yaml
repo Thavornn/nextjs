@@ -1,0 +1,11 @@
+apiVersion: v1
+kind: Pod
+metadata: 
+  name: nextjs-pod
+  labels: 
+    app: nextjs
+    tier: frontend
+spec: 
+  containers:
+    - name: nextjs-container
+      image: lynakiddy/nextjs:latest
