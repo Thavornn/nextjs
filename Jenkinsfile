@@ -1,15 +1,15 @@
 pipeline {
     agent {
         kubernetes {
-            label 'docker-agent'
-            defaultContainer 'node'   // default is node, so npm works
+            label 'node-docker-agent'
+            defaultContainer 'node'
             yaml """
 apiVersion: v1
 kind: Pod
 spec:
   containers:
   - name: node
-    image: node:20
+    image: node:18
     command:
     - cat
     tty: true
@@ -24,7 +24,7 @@ spec:
         DOCKERHUB_CRED = 'dockerhub-token'
         GITHUB_CRED    = 'github-token'
         DOCKER_REG     = 'pinkmelon'
-        IMAGE_REPO     = "${env.DOCKER_REG}/nextjs-app"
+        IMAGE_REPO     = "${env.DOCKER_REG}/hw-nextjs"
         IMAGE_TAG      = "${env.BUILD_NUMBER}"
         CD_BRANCH      = 'main'
     }
@@ -33,7 +33,7 @@ spec:
             steps {
                 container('node') {
                     sh '''
-                        npm install
+                        npm install --legacy-peer-deps
                         npm run build
                     '''
                 }
@@ -53,21 +53,23 @@ spec:
                 }
             }
         }
-        stage('Update Helm Chart') {
-            steps {
-                withCredentials([usernamePassword(credentialsId: 'github-token', usernameVariable: 'GH_USER', passwordVariable: 'GH_TOKEN')]) {
-                    sh """
-                        git clone -b ${CD_BRANCH} https://${GH_USER}:${GH_TOKEN}@github.com/Thavornn/nextjs-cd.git cd-repo
-                        cd cd-repo
-                        git config user.name "Thavornn"
-                        git config user.email "pinklemon122@gmail.com"
-                        sed -i "s|tag: .*|tag: ${IMAGE_TAG}|" values.yaml
-                        git add values.yaml
-                        git commit -m "Update image tag to ${IMAGE_TAG}"
-                        git push https://${GH_USER}:${GH_TOKEN}@github.com/Thavornn/nextjs-cd.git ${CD_BRANCH}
-                    """
-                }
-            }
-        }
+        // stage('Update Helm Chart') {
+            // steps {
+            //     container('node') {
+            //         withCredentials([usernamePassword(credentialsId: 'github-token', usernameVariable: 'GH_USER', passwordVariable: 'GH_TOKEN')]) {
+            //             sh """
+            //                 git clone -b ${CD_BRANCH} https://${GH_USER}:${GH_TOKEN}@github.com/Thavornn/nextjs-cd.git cd-repo
+            //                 cd cd-repo
+            //                 git config user.name "Thavornn"
+            //                 git config user.email "pinklemon122@gmail.com"
+            //                 sed -i "s|tag: .*|tag: ${IMAGE_TAG}|" values.yaml
+            //                 git add values.yaml
+            //                 git commit -m "Update image tag to ${IMAGE_TAG}"
+            //                 git push https://${GH_USER}:${GH_TOKEN}@github.com/Thavornn/nextjs-cd.git ${CD_BRANCH}
+            //             """
+            //         }
+            //     }
+            // }
+        // }
     }
 }
