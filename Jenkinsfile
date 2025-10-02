@@ -24,7 +24,7 @@ spec:
         DOCKERHUB_CRED = 'dockerhub-token'
         GITHUB_CRED    = 'github-token'
         DOCKER_REG     = 'pinkmelon'
-        IMAGE_REPO     = "${env.DOCKER_REG}/hw-nextjs"
+        IMAGE_REPO     = "${env.DOCKER_REG}/nextjsapp"
         IMAGE_TAG      = "${env.BUILD_NUMBER}"
         CD_BRANCH      = 'main'
     }
