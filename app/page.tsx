@@ -260,7 +260,7 @@ export default function UserManagement() {
     <div className="container mx-auto p-6 max-w-6xl">
       <Card>
         <CardHeader>
-          <CardTitle className="text-2xl font-bold">User Management</CardTitle>
+          <CardTitle className="text-2xl font-bold">Thavorn Management</CardTitle>
           <CardDescription>
             Manage users with CRUD operations and search functionality (Spring
             Boot Backend)
