@@ -21,7 +21,7 @@ spec:
         }
     }
     environment {
-        DOCKERHUB_CRED = 'dockerhub-token'
+        DOCKERHUB_CRED = 'dockerhub-token' // Docker Hub credentials ID in Jenkins
         GITHUB_CRED    = 'github-token'
         DOCKER_REG     = 'pinkmelon'
         IMAGE_REPO     = "${env.DOCKER_REG}/nextjsapp"
